@@ -1,0 +1,21 @@
+img{
+    float:left;
+    height: 300px;
+    width:300px;
+    border:2px solid royalblue;
+}
+
+main > ul:last-child {
+    text-align: center;
+}
+
+main{
+    overflow: hidden;
+}
+h1 {
+    text-align: center;
+    font-weight:10px;
+}
+li {
+    list-style-type: none;
+}
