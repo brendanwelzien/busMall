@@ -5,24 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Mall</title>
     <link rel="stylesheet" href="style.css">
+    <link href="canvas.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
 
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <header>
         <h1> Product Survey </h1>
     </header>
     <main>
 <ul id="products"> 
-    <li><img id="left" src="img/bag.jpg" alt="Bag"></li>
-    <li><img id="middle" src="img/banana.jpg" alt="Banana"></li>
-    <li><img id="right" src="img/bathroom.jpg" alt="Restroom"></li>
+    <li><img id="0" src="img/bag.jpg" alt="Bag"></li>
+    <li><img id="1" src="img/banana.jpg" alt="Banana"></li>
+    <li><img id="2" src="img/bathroom.jpg" alt="Restroom"></li>
 </ul>
 <ul id="summary"> 
     <li></li>
 </ul>
+<div>
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
 </main>
 <footer> </footer>
+
     <script src="app.js"> </script>
 </body>
 </html>
