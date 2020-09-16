@@ -13,7 +13,16 @@ var newImage;
 var sumArray=[];
 var summ;
 
+var shownArray = [];
+var clicksArray = [];
+var setOfImages = 3;
+var productNameArray = [];
+var retrieveRandomIndex;
+var priorIndexNumber = [];
+var tIndexArray = [];
 
+
+var displayArray = [];
 
 
 // Constructor Function : name of product and file path of image along with 
@@ -26,24 +35,42 @@ function Product(productName, filePath){
 }
 
 
-// Display Setup of the Images and Reference
-var leftElement = document.getElementById("left");
-var middleElement = document.getElementById("middle");
-var rightElement = document.getElementById("right");
-var setupDisplay= [leftElement, middleElement, rightElement];
+// add first of image function
+function firstofImage() {
+for(var i = 0; i < setOfImages; i++){
+    displayArray.push(document.getElementById(i));
+    do {
+        var storage = Math.floor(Math.random() * productArray.length);
+        } while(tIndexArray.includes(storage));
+            tIndexArray.push(storage);
+            displayArray[i].src = productArray[storage].filePath;
+            displayArray[i].alt = productArray[storage].productName;
+    }
+}
 
-// Event Listener
-leftElement.addEventListener('click', clickBomb);
-middleElement.addEventListener('click', clickBomb);
-rightElement.addEventListener('click', clickBomb);
+// getting more images function
+function grabMoreImages(){
+    for (var i = 0; i < displayArray.length; i++){
+        newImage = randomImage();
+        displayArray[i].src = newImage.filePath;
+        displayArray[i].alt = newImage.productName;
+    }
+    priorIndexNumber = tIndexArray;
+    tIndexArray = []; // store images in this array
+}
+
+
 
 //random image generator (3 items)
 function randomImage() {
-    var randomNumbers = Math.floor(Math.random() * productArray.length);
-    newImage = productArray[randomNumbers];
+    do {
+     retrieveRandomIndex = Math.floor(Math.random() * productArray.length);
+    } while (priorIndexNumber.includes(retrieveRandomIndex) || tIndexArray.includes(retrieveRandomIndex));
     
     // now store it
+    newImage = productArray[retrieveRandomIndex];
     newImage.timesShown++;
+    tIndexArray.push[retrieveRandomIndex];
     return newImage;
 }
 
@@ -59,52 +86,68 @@ function clickBomb(event) {
            productArray[p].timesClicked++;
        }
    }
-   // change and randomize
-   for (var r = 0; r < setupDisplay.length; r++){
-       newImage = randomImage();
-       setupDisplay[r].alt = newImage.productName;
-       setupDisplay[r].src = newImage.filePath;
-   }
+   grabMoreImages();
+
 
    //end function after 25
    if (clickCounter > 24) {
-       leftElement.removeEventListener('click',clickBomb);
-       middleElement.removeEventListener('click', clickBomb);
-       rightElement.removeEventListener('click', clickBomb);
         findResults();
-        returnResults();
+        removeImages();
+        createGraph();
+        removeListener();
    }
 }
+
+
 // finding results function, use number of times chosen divided by shown, turn into non-decimal?
 function findResults (){
     for (var p = 0; p < productArray.length; p++){
+        if(productArray[p].timesShown !==0){
         summ = Math.floor((productArray[p].timesClicked / productArray[p].timesShown) * 100);
         sumArray.push(summ);
+        }
+    sumArray.push(0);
+    productNameArray.push(productArray[p].productName);
+    shownArray.push(productArray[p].timesShown);
+    clicksArray.push(productArray[p].timesClicked);
     }
 }
 
-var unorderedListElement = document.getElementById('summary');
-
-//returning the results (use ul from html)
-function returnResults(){
-    for ( var r = 0; r < sumArray.length; r++){
-        var listElement = document.createElement('li');
-        listElement.textContent = (`${productArray[r].productName} has been clicked ${productArray[r].timesClicked} times when it was shown ${productArray[r].timesShown} times, accounting for ${sumArray[r]}%`);
-        unorderedListElement.appendChild(listElement);
-    }
+function createGraph(){
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+// type of graph
+        type:'bar',
+        data: { // labels should be the names of products and the results
+            labels:productNameArray,
+            datasets: [{
+                label: '% for times clicked vs. shown',
+                data: sumArray,
+                backgroundColor: 'rgb(210, 89, 140)',
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
 }
 
+// remove image function
+function removeImages(){
+    for (var r = 0; r < displayArray.length; r++){
+        var imageProperty = document.getElementById(r).style.visibility = "hidden"; // this hides images after re-rendering!
+    }
+}
 // products that need to be constructed
 new Product('Bag', './img/bag.jpg');
-productArray[0].timesShown = 1;
-
 new Product ('Banana', './img/banana.jpg');
-productArray[1].timesShown = 1;
-
 new Product ('Restroom', './img/bathroom.jpg');
-productArray[1].timesShown = 1;
-
-// check to see if I need to add these to the array as well for times shown
 new Product ('Boots', './img/boots.jpg');
 new Product ('Breakfast', './img/breakfast.jpg');
 new Product ('Bubblegum', './img/bubblegum.jpg');
@@ -122,3 +165,19 @@ new Product ('Unicorn', './img/unicorn.jpg');
 new Product ('Usb', './img/usb.gif');
 new Product ('Water-can', './img/water-can.jpg');
 new Product ('Wine-glass', './img/wine-glass.jpg');
+
+firstofImage();
+// Event Listener 
+// use array length?
+for (var l = 0; l < displayArray.length; l++){
+    displayArray[l].addEventListener('click', clickBomb);
+}
+
+
+
+// Remove Listener 
+ function removeListener(){
+    for(var r = 0; r < displayArray.length; r++){
+        displayArray[r].removeEventListener('click', clickBomb);
+    }
+}

@@ -8,7 +8,11 @@ img{
 main > ul:last-child {
     text-align: center;
 }
-
+div{
+    overflow: hidden;
+    text-align: center;
+    margin-left:20px;
+}
 main{
     overflow: hidden;
 }
