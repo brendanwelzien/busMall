@@ -95,6 +95,9 @@ function clickBomb(event) {
         removeImages();
         createGraph();
         removeListener();
+
+        var productStringify = JSON.stringify(productArray);
+        localStorage.setItem('productResults', productStringify);
    }
 }
 
@@ -144,6 +147,7 @@ function removeImages(){
         var imageProperty = document.getElementById(r).style.visibility = "hidden"; // this hides images after re-rendering!
     }
 }
+if (localStorage.getItem('productResults') === null){
 // products that need to be constructed
 new Product('Bag', './img/bag.jpg');
 new Product ('Banana', './img/banana.jpg');
@@ -165,7 +169,10 @@ new Product ('Unicorn', './img/unicorn.jpg');
 new Product ('Usb', './img/usb.gif');
 new Product ('Water-can', './img/water-can.jpg');
 new Product ('Wine-glass', './img/wine-glass.jpg');
-
+} else { 
+    var productStringify = localStorage.getItem('productResults');
+    productArray = JSON.parse(productStringify);
+}
 firstofImage();
 // Event Listener 
 // use array length?
