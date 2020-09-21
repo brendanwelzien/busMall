@@ -1,1 +1,3 @@
-# busMall
+# Bus mall
+
+This is an application when ran in the browser displays a series of products. The user is prompted to choose which product they find most appealing. A table is created after the series of products are finished running through its course of twenty-five rounds. The table depicts the percentage of each product clicked compared with how often is is shown. This provides the user with some insight about which products they like. They then can add to cart the item and the quantity.
